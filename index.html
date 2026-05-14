@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biniyam Mulugeta Abuhayi — PhD Researcher, University of Debrecen</title>
+  <meta name="description" content="PhD candidate at the University of Debrecen researching medical imaging AI, deep learning diagnostics, and agentic AI systems." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #09090f;
+      --bg2:       #11111c;
+      --bg3:       #191926;
+      --border:    #252535;
+      --gold:      #c8a04a;
+      --gold-dim:  #8a6c2e;
+      --blue:      #5b8dba;
+      --blue-dim:  #3a5f80;
+      --text:      #e2ddd4;
+      --text2:     #908a7e;
+      --text3:     #50504a;
+      --radius:    10px;
+      --radius-lg: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      height: 62px;
+      background: rgba(9,9,15,0.82);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--gold);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text2);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ─── HERO ────────────────────────────── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 clamp(1.5rem, 8vw, 8rem);
+      overflow: hidden;
+    }
+    #hero-canvas {
+      position: absolute; inset: 0;
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 680px;
+    }
+    .hero-label {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold-dim);
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.3s forwards;
+    }
+    .hero-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      line-height: 1.12;
+      color: var(--text);
+      opacity: 0;
+      animation: fadeUp 0.7s 0.5s forwards;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero-sub {
+      margin-top: 1.4rem;
+      font-size: 1.05rem;
+      color: var(--text2);
+      font-weight: 300;
+      line-height: 1.8;
+      max-width: 540px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.7s forwards;
+    }
+    .hero-ctas {
+      margin-top: 2.2rem;
+      display: flex; flex-wrap: wrap; gap: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.9s forwards;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold);
+      color: var(--bg);
+      font-weight: 600; font-size: 0.87rem;
+      padding: 11px 22px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--text);
+      font-weight: 500; font-size: 0.87rem;
+      padding: 11px 22px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-1px); }
+
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      opacity: 0;
+      animation: fadeIn 1s 1.4s forwards;
+    }
+    .hero-scroll span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text3);
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--gold-dim), transparent);
+      animation: scrollPulse 1.8s ease-in-out infinite;
+    }
+
+    /* ─── SECTIONS ────────────────────────── */
+    section {
+      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 8vw, 8rem);
+      border-top: 1px solid var(--border);
+    }
+    .section-header {
+      display: flex; align-items: baseline; gap: 1.2rem;
+      margin-bottom: 3.5rem;
+    }
+    .section-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 6px;
+    }
+
+    /* ─── ABOUT ───────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--text2);
+      margin-bottom: 1.2rem;
+      font-size: 1.02rem;
+      font-weight: 300;
+    }
+    .about-text p strong { color: var(--text); font-weight: 500; }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+    .stat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1.4rem;
+    }
+    .stat-number {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.2rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--text2);
+      margin-top: 6px;
+      font-weight: 400;
+    }
+    .stat-card.wide { grid-column: span 2; }
+    .affiliation {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      margin-top: 1.8rem;
+      font-size: 0.9rem;
+      color: var(--text2);
+    }
+    .affiliation svg { flex-shrink: 0; }
+
+    /* ─── RESEARCH INTERESTS ──────────────── */
+    .interests-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+    }
+    .interest-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.6rem;
+      transition: border-color 0.25s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .interest-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .interest-card:hover { border-color: var(--gold-dim); transform: translateY(-3px); }
+    .interest-card:hover::before { opacity: 1; }
+    .interest-icon {
+      width: 42px; height: 42px;
+      background: var(--bg3);
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+    .interest-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    .interest-card p {
+      font-size: 0.88rem;
+      color: var(--text2);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* ─── PROJECTS ────────────────────────── */
+    .projects-stack { display: flex; flex-direction: column; gap: 1.5rem; }
+    .project-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem 2.2rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1.5rem;
+      align-items: start;
+      transition: border-color 0.25s;
+    }
+    .project-card:hover { border-color: var(--blue-dim); }
+    .project-year {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .project-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+    .project-card p {
+      font-size: 0.9rem;
+      color: var(--text2);
+      font-weight: 300;
+      line-height: 1.75;
+    }
+    .project-tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: 1rem;
+    }
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      color: var(--text3);
+      text-transform: uppercase;
+    }
+    .tag.highlight { border-color: var(--gold-dim); color: var(--gold); }
+    .status-badge {
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 5px 12px;
+      border-radius: 100px;
+      white-space: nowrap;
+      align-self: start;
+    }
+    .status-active { background: rgba(91,141,186,0.15); color: var(--blue); border: 1px solid rgba(91,141,186,0.3); }
+    .status-ongoing { background: rgba(200,160,74,0.12); color: var(--gold); border: 1px solid rgba(200,160,74,0.25); }
+
+    /* ─── PUBLICATIONS ────────────────────── */
+    .pubs-container {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+    }
+    .pubs-intro {
+      font-size: 0.95rem;
+      color: var(--text2);
+      font-weight: 300;
+      margin-bottom: 2rem;
+      max-width: 600px;
+    }
+    .pubs-links {
+      display: flex; flex-wrap: wrap; gap: 1rem;
+    }
+    .pub-link {
+      display: inline-flex; align-items: center; gap: 9px;
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .pub-link:hover { border-color: var(--gold); color: var(--gold); }
+    .pub-link svg { opacity: 0.6; }
+    .orcid-icon { background: #A6CE39; border-radius: 50%; }
+
+    /* ─── CONTACT ─────────────────────────── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .contact-text h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.7rem;
+      color: var(--text);
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+    .contact-text p {
+      font-size: 0.95rem;
+      color: var(--text2);
+      font-weight: 300;
+      margin-bottom: 1.8rem;
+    }
+    .contact-items { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-item {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+    }
+    .contact-item-icon {
+      width: 38px; height: 38px;
+      background: var(--bg3);
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-item-content { flex: 1; }
+    .contact-item-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text3);
+      margin-bottom: 2px;
+    }
+    .contact-item-value {
+      font-size: 0.9rem;
+      color: var(--text);
+      font-weight: 400;
+    }
+    .contact-item-value a {
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .contact-item-value a:hover { color: var(--gold); }
+
+    /* ─── FOOTER ──────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem clamp(1.5rem, 8vw, 8rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    footer p {
+      font-size: 0.82rem;
+      color: var(--text3);
+    }
+    footer a { color: var(--text3); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--gold); }
+
+    /* ─── ANIMATIONS ──────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes scrollPulse {
+      0%,100% { transform: scaleY(1); opacity: 0.6; }
+      50%      { transform: scaleY(1.15); opacity: 1; }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(22px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ──────────────────────── */
+    @media (max-width: 840px) {
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+      .stat-card.wide { grid-column: span 2; }
+      .project-card { grid-template-columns: 1fr; }
+      nav .nav-links { display: none; }
+    }
+    @media (max-width: 480px) {
+      .about-stats { grid-template-columns: 1fr; }
+      .stat-card.wide { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">BMA</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="border-top:none;">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <span class="hero-label">PhD Candidate · Debrecen, Hungary</span>
+    <h1 class="hero-name">
+      Biniyam<br><em>Mulugeta</em> Abuhayi
+    </h1>
+    <p class="hero-sub">
+      Research Assistant at the University of Debrecen, building interpretable AI systems at the intersection of <strong>medical imaging</strong>, <strong>deep learning</strong>, and <strong>agentic AI architectures</strong>.
+    </p>
+    <div class="hero-ctas">
+      <a href="#research" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Explore Research
+      </a>
+      <a href="#contact" class="btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Get in Touch
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-tag">01 / About</span>
+    <h2 class="section-title">Researcher & Engineer</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>
+        I am a <strong>PhD candidate and research assistant</strong> at the University of Debrecen, Hungary, where I develop AI systems that bridge the gap between clinical data complexity and machine interpretability.
+      </p>
+      <p>
+        My doctoral work spans two complementary tracks: <strong>deep learning for medical imaging diagnostics</strong> — building end-to-end pipelines that process histopathology, radiology, and clinical tabular data — and <strong>agentic AI systems</strong> designed to automate multi-step reasoning workflows.
+      </p>
+      <p>
+        I design architectures integrating <strong>Apache Kafka</strong> for real-time event streaming, <strong>RAG-based knowledge retrieval</strong>, <strong>neuro-symbolic microservices</strong>, and <strong>Human-in-the-Loop orchestration</strong> to create reproducible, auditable intelligent pipelines.
+      </p>
+      <div class="affiliation">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c8a04a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Faculty of Informatics · University of Debrecen, Hungary</span>
+      </div>
+    </div>
+    <div class="about-stats reveal">
+      <div class="stat-card">
+        <div class="stat-number">2</div>
+        <div class="stat-label">Research tracks — diagnostics & agentic AI</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">4+</div>
+        <div class="stat-label">Active projects in development</div>
+      </div>
+      <div class="stat-card wide">
+        <div class="stat-number" style="font-size:1.5rem; margin-bottom:0.4rem;">Mid-2025 → Mid-2027</div>
+        <div class="stat-label">Two-year doctoral research programme at University of Debrecen</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH INTERESTS -->
+<section id="research">
+  <div class="section-header reveal">
+    <span class="section-tag">02 / Research</span>
+    <h2 class="section-title">Interests &amp; Expertise</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="interests-grid">
+    <div class="interest-card reveal">
+      <div class="interest-icon">🧠</div>
+      <h3>Medical Imaging AI</h3>
+      <p>Deep learning pipelines for histopathology slide analysis, radiology image segmentation, and clinical decision support using CNNs and Vision Transformers.</p>
+    </div>
+    <div class="interest-card reveal">
+      <div class="interest-icon">🤖</div>
+      <h3>Agentic AI Systems</h3>
+      <p>Multi-agent orchestration frameworks with Human-in-the-Loop control, real-time event streaming via Apache Kafka, and adaptive task decomposition.</p>
+    </div>
+    <div class="interest-card reveal">
+      <div class="interest-icon">🔗</div>
+      <h3>Neuro-Symbolic AI</h3>
+      <p>Combining neural perception with symbolic reasoning — OWL ontologies, temporal logic (LTL), and knowledge graph integration for interpretable inference.</p>
+    </div>
+    <div class="interest-card reveal">
+      <div class="interest-icon">📡</div>
+      <h3>Intrusion Detection</h3>
+      <p>AI-driven anomaly detection on network logs (CICIDS 2017), threat reasoning with MITRE ATT&CK ontology mapping, and multi-stage attack modeling.</p>
+    </div>
+    <div class="interest-card reveal">
+      <div class="interest-icon">📚</div>
+      <h3>RAG &amp; Knowledge Retrieval</h3>
+      <p>Retrieval-Augmented Generation architectures for scientific literature, systematic review automation, and domain-specific question answering over structured corpora.</p>
+    </div>
+    <div class="interest-card reveal">
+      <div class="interest-icon">⚙️</div>
+      <h3>Reproducible Pipelines</h3>
+      <p>Dockerised microservice architectures, workflow orchestration, and reproducible ML experiment management for scalable research infrastructure.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CURRENT PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-tag">03 / Projects</span>
+    <h2 class="section-title">Current Work</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-stack">
+
+    <div class="project-card reveal">
+      <div>
+        <div class="project-year">Year 1 · 2025–2026</div>
+        <h3>Deep Learning Diagnostics Pipeline</h3>
+        <p>Building end-to-end clinical AI pipelines that fuse histopathology imaging, radiology scans, and structured tabular patient records. The system applies transfer learning, attention mechanisms, and uncertainty quantification to produce interpretable diagnostic outputs aligned with clinical workflows.</p>
+        <div class="project-tags">
+          <span class="tag highlight">Medical Imaging</span>
+          <span class="tag">Vision Transformer</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">Multi-modal Fusion</span>
+        </div>
+      </div>
+      <span class="status-badge status-active">Active</span>
+    </div>
+
+    <div class="project-card reveal">
+      <div>
+        <div class="project-year">Year 2 · 2026–2027</div>
+        <h3>Agentic AI Orchestration Framework</h3>
+        <p>Designing a modular agentic system integrating Apache Kafka for real-time data streaming, RAG microservices for knowledge retrieval, neuro-symbolic reasoning modules, and a Human-in-the-Loop interface for audit and intervention — enabling complex, multi-step clinical and analytical task automation.</p>
+        <div class="project-tags">
+          <span class="tag highlight">Agentic AI</span>
+          <span class="tag">Apache Kafka</span>
+          <span class="tag">RAG</span>
+          <span class="tag">HITL</span>
+          <span class="tag">Microservices</span>
+        </div>
+      </div>
+      <span class="status-badge status-ongoing">Upcoming</span>
+    </div>
+
+    <div class="project-card reveal">
+      <div>
+        <div class="project-year">Ongoing</div>
+        <h3>Neuro-Symbolic IDS for Apache Log Anomaly Detection</h3>
+        <p>Developing an intrusion detection system that combines deep neural anomaly scoring with symbolic temporal logic reasoning. The system maps detected threats to MITRE ATT&CK entries via OWL ontologies and applies LTL-based multi-stage attack reasoning on the CICIDS 2017 dataset.</p>
+        <div class="project-tags">
+          <span class="tag highlight">IDS</span>
+          <span class="tag">LTL</span>
+          <span class="tag">OWL Ontology</span>
+          <span class="tag">MITRE ATT&CK</span>
+        </div>
+      </div>
+      <span class="status-badge status-active">Active</span>
+    </div>
+
+    <div class="project-card reveal">
+      <div>
+        <div class="project-year">Ongoing</div>
+        <h3>Systematic Review Automation Platform</h3>
+        <p>Building an AI-assisted platform for systematic literature review — automating database querying across Scopus, Web of Science, and IEEE Xplore, applying PRISMA-compliant screening, extracting structured data from papers, and generating synthesis reports via LLM pipelines.</p>
+        <div class="project-tags">
+          <span class="tag highlight">Systematic Review</span>
+          <span class="tag">PRISMA</span>
+          <span class="tag">NLP</span>
+          <span class="tag">LLM</span>
+        </div>
+      </div>
+      <span class="status-badge status-ongoing">In Progress</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="section-header reveal">
+    <span class="section-tag">04 / Publications</span>
+    <h2 class="section-title">Academic Output</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="pubs-container reveal">
+    <p class="pubs-intro">
+      Peer-reviewed publications, preprints, and academic contributions. For a full and up-to-date list, visit my ORCID profile or Google Scholar page.
+    </p>
+    <div class="pubs-links">
+      <a class="pub-link" href="https://orcid.org/0000-0003-3717-5499" target="_blank" rel="noopener">
+        <svg width="22" height="22" viewBox="0 0 256 256" class="orcid-icon">
+          <circle cx="128" cy="128" r="128" fill="#A6CE39"/>
+          <path d="M86.3 186.2H70.9V79.1h15.4v107.1zM108.9 79.1h41.6c39.6 0 57 28.3 57 53.6 0 27.5-21.5 53.6-56.8 53.6h-41.8V79.1zm15.4 93.3h24.5c34.9 0 42.9-26.5 42.9-39.7C191.7 111.2 182 93 155 93h-30.6v79.4zM88.7 56.8c0 5.5-4.5 10.1-10.1 10.1s-10.1-4.6-10.1-10.1c0-5.6 4.5-10.1 10.1-10.1s10.1 4.6 10.1 10.1z" fill="white"/>
+        </svg>
+        ORCID Profile
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+      <a class="pub-link" href="https://scholar.google.com/scholar?q=Biniyam+Mulugeta+Abuhayi" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Google Scholar
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+      <a class="pub-link" href="https://github.com/Biniyam23" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        GitHub
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header reveal">
+    <span class="section-tag">05 / Contact</span>
+    <h2 class="section-title">Get in Touch</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-text reveal">
+      <h3>Open to collaborations &amp; research discussions</h3>
+      <p>Whether you're interested in joint research, manuscript review, dataset collaboration, or just want to talk AI — feel free to reach out. I'm especially keen on interdisciplinary work connecting clinical medicine with machine learning.</p>
+      <a href="mailto:biniyam.mulugeta123@gmail.com" class="btn-primary" style="display:inline-flex;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Send an Email
+      </a>
+    </div>
+    <div class="contact-items reveal">
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c8a04a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="contact-item-content">
+          <div class="contact-item-label">Email</div>
+          <div class="contact-item-value"><a href="mailto:biniyam.mulugeta123@gmail.com">biniyam.mulugeta123@gmail.com</a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c8a04a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="contact-item-content">
+          <div class="contact-item-label">Location</div>
+          <div class="contact-item-value">Debrecen, Hungary</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg width="18" height="18" viewBox="0 0 256 256" style="border-radius:50%;"><circle cx="128" cy="128" r="128" fill="#A6CE39"/><path d="M86.3 186.2H70.9V79.1h15.4v107.1zM108.9 79.1h41.6c39.6 0 57 28.3 57 53.6 0 27.5-21.5 53.6-56.8 53.6h-41.8V79.1zm15.4 93.3h24.5c34.9 0 42.9-26.5 42.9-39.7C191.7 111.2 182 93 155 93h-30.6v79.4zM88.7 56.8c0 5.5-4.5 10.1-10.1 10.1s-10.1-4.6-10.1-10.1c0-5.6 4.5-10.1 10.1-10.1s10.1 4.6 10.1 10.1z" fill="white"/></svg>
+        </div>
+        <div class="contact-item-content">
+          <div class="contact-item-label">ORCID</div>
+          <div class="contact-item-value"><a href="https://orcid.org/0000-0003-3717-5499" target="_blank" rel="noopener">0000-0003-3717-5499</a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c8a04a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        </div>
+        <div class="contact-item-content">
+          <div class="contact-item-label">GitHub</div>
+          <div class="contact-item-value"><a href="https://github.com/Biniyam23" target="_blank" rel="noopener">github.com/Biniyam23</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Biniyam Mulugeta Abuhayi · University of Debrecen</p>
+  <p>
+    <a href="https://orcid.org/0000-0003-3717-5499" target="_blank" rel="noopener">ORCID</a> ·
+    <a href="https://github.com/Biniyam23" target="_blank" rel="noopener">GitHub</a> ·
+    <a href="mailto:biniyam.mulugeta123@gmail.com">Email</a>
+  </p>
+</footer>
+
+<script>
+/* ─── ANIMATED NEURAL NETWORK CANVAS ─── */
+(function(){
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, nodes = [], GOLD = '#c8a04a', BLUE = '#3a5f80';
+
+  function resize(){
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+
+  function makeNodes(n){
+    nodes = [];
+    for(let i=0;i<n;i++){
+      nodes.push({
+        x: Math.random()*W, y: Math.random()*H,
+        vx:(Math.random()-.5)*0.28, vy:(Math.random()-.5)*0.28,
+        r: Math.random()*2+1.2
+      });
+    }
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const D=120;
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<D){
+          const a=(1-dist/D)*0.14;
+          ctx.strokeStyle=`rgba(200,160,74,${a})`;
+          ctx.lineWidth=0.6;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x,nodes[i].y);
+          ctx.lineTo(nodes[j].x,nodes[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    nodes.forEach(n=>{
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(200,160,74,0.45)';
+      ctx.fill();
+      n.x+=n.vx; n.y+=n.vy;
+      if(n.x<0||n.x>W) n.vx*=-1;
+      if(n.y<0||n.y>H) n.vy*=-1;
+    });
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', ()=>{resize(); makeNodes(Math.floor(W*H/14000));});
+  resize();
+  makeNodes(Math.floor(W*H/14000));
+  draw();
+})();
+
+/* ─── SCROLL REVEAL ─── */
+(function(){
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){
+        setTimeout(()=>e.target.classList.add('visible'), i*80);
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.12});
+  els.forEach(el=>obs.observe(el));
+})();
+</script>
+</body>
+</html>
