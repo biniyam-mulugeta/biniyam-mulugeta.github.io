@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin — BMA Site</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#f4f6fb;--bg2:#ffffff;--bg3:#e8eef8;
+      --border:#d0d9ec;--border2:#b0c2dc;
+      --blue:#2558a8;--blue-mid:#4580c8;--blue-light:#eff4ff;
+      --teal:#0b8c80;--red:#c0392b;--green:#1a7a40;
+      --text:#1a2340;--text2:#4a5d7a;--text3:#8a9ab8;
+      --radius:8px;
+    }
+    body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;min-height:100vh}
+
+    /* SETUP */
+    #setup-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem}
+    .setup-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:2.5rem;max-width:480px;width:100%}
+    .setup-card h1{font-size:1.4rem;margin-bottom:.4rem;color:var(--text)}
+    .setup-card .sub{font-size:.85rem;color:var(--text2);margin-bottom:2rem;line-height:1.6}
+    .setup-card .sub a{color:var(--blue)}
+
+    /* APP */
+    #app{display:none}
+    header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+    .header-title{font-size:.95rem;font-weight:600;color:var(--text)}
+    .header-title span{color:var(--blue-mid);font-weight:400;font-size:.82rem;margin-left:.5rem}
+    .header-actions{display:flex;gap:.7rem;align-items:center}
+
+    /* SIDEBAR */
+    .layout{display:grid;grid-template-columns:200px 1fr;min-height:calc(100vh - 56px)}
+    .sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:1.2rem 0}
+    .sidebar-item{display:flex;align-items:center;gap:10px;padding:.65rem 1.4rem;font-size:.85rem;font-weight:500;color:var(--text2);cursor:pointer;transition:all .15s;border-left:3px solid transparent}
+    .sidebar-item:hover{background:var(--blue-light);color:var(--blue)}
+    .sidebar-item.active{background:var(--blue-light);color:var(--blue);border-left-color:var(--blue)}
+    .sidebar-icon{font-size:1rem;width:20px;text-align:center}
+    .main-content{padding:2rem;overflow-y:auto}
+
+    /* PANELS */
+    .panel{display:none}
+    .panel.active{display:block}
+    .panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+    .panel-title{font-size:1.1rem;font-weight:600;color:var(--text)}
+    .panel-subtitle{font-size:.8rem;color:var(--text3);margin-top:2px}
+
+    /* FORMS */
+    .form-grid{display:grid;gap:1rem}
+    .form-grid-2{grid-template-columns:1fr 1fr}
+    .form-group{display:flex;flex-direction:column;gap:.4rem}
+    label{font-size:.78rem;font-weight:500;color:var(--text2);letter-spacing:.04em;text-transform:uppercase}
+    input,textarea,select{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.6rem .8rem;font-size:.88rem;font-family:'Inter',sans-serif;color:var(--text);transition:border-color .2s;width:100%}
+    input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue);background:var(--bg2)}
+    textarea{resize:vertical;min-height:80px}
+    .form-hint{font-size:.75rem;color:var(--text3);margin-top:2px}
+
+    /* BUTTONS */
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:.55rem 1.1rem;border-radius:var(--radius);font-size:.82rem;font-weight:500;cursor:pointer;border:none;transition:all .15s;font-family:'Inter',sans-serif}
+    .btn-blue{background:var(--blue);color:#fff}.btn-blue:hover{opacity:.88}
+    .btn-outline{background:transparent;border:1px solid var(--border2);color:var(--text2)}.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+    .btn-red{background:transparent;border:1px solid #f0c0bc;color:var(--red)}.btn-red:hover{background:#fdf2f0}
+    .btn-green{background:var(--green);color:#fff}.btn-green:hover{opacity:.88}
+    .btn-sm{padding:.35rem .75rem;font-size:.76rem}
+
+    /* LIST */
+    .item-list{display:flex;flex-direction:column;gap:.7rem}
+    .list-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;display:flex;gap:1rem;align-items:flex-start}
+    .list-item.first-auth{border-left:3px solid var(--blue)}
+    .li-body{flex:1;min-width:0}
+    .li-title{font-size:.9rem;font-weight:500;color:var(--text);line-height:1.45;margin-bottom:.2rem}
+    .li-sub{font-size:.78rem;color:var(--text2)}
+    .li-meta{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.4rem}
+    .badge{font-size:.66rem;font-family:'JetBrains Mono',monospace;padding:2px 7px;border-radius:100px;border:1px solid var(--border2);color:var(--text3);text-transform:uppercase}
+    .badge.blue{border-color:#a8c0de;color:var(--blue-mid)}
+    .badge.green{border-color:#a8d4b4;color:var(--green)}
+    .badge.gold{border-color:#d9a86c;color:#b06a10}
+    .badge.purple{border-color:#c0b8dc;color:#5a50a0}
+    .li-actions{display:flex;flex-direction:column;gap:.4rem;flex-shrink:0}
+
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(26,35,64,.35);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
+    .modal-overlay.open{display:flex}
+    .modal{background:var(--bg2);border-radius:12px;border:1px solid var(--border);padding:2rem;width:100%;max-width:640px;max-height:90vh;overflow-y:auto}
+    .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
+    .modal-title{font-size:1rem;font-weight:600;color:var(--text)}
+    .modal-close{background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--text3);padding:.2rem .4rem}
+    .modal-close:hover{color:var(--text)}
+    .modal-footer{display:flex;gap:.7rem;justify-content:flex-end;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)}
+
+    /* TABS for checkboxes */
+    .tag-checks{display:flex;flex-wrap:wrap;gap:.5rem}
+    .tag-check{display:flex;align-items:center;gap:5px;font-size:.8rem;color:var(--text2);cursor:pointer}
+    .tag-check input{width:auto;padding:0}
+
+    /* NOTICE */
+    .notice{padding:.75rem 1rem;border-radius:var(--radius);font-size:.82rem;margin-bottom:1rem}
+    .notice.info{background:var(--blue-light);border:1px solid #a8c0de;color:var(--blue)}
+    .notice.success{background:#f0faf4;border:1px solid #a8d4b4;color:var(--green)}
+    .notice.error{background:#fdf2f0;border:1px solid #f0c0bc;color:var(--red)}
+    .notice.warn{background:#fffbf0;border:1px solid #f0d89c;color:#8a6010}
+
+    /* TOAST */
+    #toast{position:fixed;bottom:2rem;right:2rem;z-index:999;display:flex;flex-direction:column;gap:.5rem}
+    .toast-item{background:var(--text);color:#fff;padding:.75rem 1.2rem;border-radius:var(--radius);font-size:.82rem;animation:toastIn .3s ease;max-width:320px}
+    .toast-item.ok{background:var(--green)}
+    .toast-item.err{background:var(--red)}
+    @keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+    /* SETUP STEPS */
+    .steps{display:flex;flex-direction:column;gap:.4rem;margin:1.2rem 0;padding:1rem;background:var(--bg3);border-radius:var(--radius)}
+    .step{font-size:.82rem;color:var(--text2);display:flex;gap:.5rem}
+    .step-num{color:var(--blue);font-weight:600;flex-shrink:0}
+
+    /* SAVE BAR */
+    .save-bar{position:sticky;bottom:0;background:var(--bg2);border-top:1px solid var(--border);padding:.8rem 2rem;display:flex;align-items:center;justify-content:space-between;margin:0 -2rem -2rem}
+    .save-bar .status{font-size:.8rem;color:var(--text3)}
+    .save-bar .status.saving{color:var(--blue)}
+    .save-bar .status.saved{color:var(--green)}
+    .save-bar .status.err{color:var(--red)}
+  </style>
+</head>
+<body>
+
+<!-- SETUP SCREEN -->
+<div id="setup-screen">
+  <div class="setup-card">
+    <h1>⚙️ Site Admin Setup</h1>
+    <p class="sub">This admin panel uses the <strong>GitHub API</strong> to save changes directly to your repo — no server needed. Changes go live on your GitHub Pages site within ~60 seconds.<br><br>
+    You need a <a href="https://github.com/settings/tokens/new?scopes=repo&description=Site+Admin" target="_blank">GitHub Personal Access Token</a> with <code>Contents: Read &amp; Write</code> permission.</p>
+    <div class="steps">
+      <div class="step"><span class="step-num">1.</span>Go to GitHub → Settings → Developer Settings → Fine-grained tokens</div>
+      <div class="step"><span class="step-num">2.</span>Create token with Contents: Read & Write for your pages repo</div>
+      <div class="step"><span class="step-num">3.</span>Paste the token below — it's stored only in your browser</div>
+    </div>
+    <div class="form-grid" style="gap:.9rem">
+      <div class="form-group"><label>GitHub Username</label><input id="setup-owner" placeholder="e.g. Biniyam23"/></div>
+      <div class="form-group"><label>Repository Name</label><input id="setup-repo" placeholder="e.g. Biniyam23.github.io"/></div>
+      <div class="form-group"><label>Branch</label><input id="setup-branch" value="main"/></div>
+      <div class="form-group"><label>Personal Access Token</label><input id="setup-token" type="password" placeholder="github_pat_…"/></div>
+    </div>
+    <div id="setup-notice" style="margin-top:.8rem"></div>
+    <div style="margin-top:1.2rem;display:flex;gap:.7rem">
+      <button class="btn btn-blue" onclick="saveSetup()">Save & Connect</button>
+      <button class="btn btn-outline" onclick="testConnection()">Test Connection</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <header>
+    <div class="header-title">Site Admin <span id="header-repo-label"></span></div>
+    <div class="header-actions">
+      <a href="index.html" target="_blank" class="btn btn-outline btn-sm">View Site ↗</a>
+      <button class="btn btn-outline btn-sm" onclick="showSetup()">Settings</button>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-item active" data-panel="about" onclick="switchPanel(this)"><span class="sidebar-icon">👤</span>About & Stats</div>
+      <div class="sidebar-item" data-panel="publications" onclick="switchPanel(this)"><span class="sidebar-icon">📄</span>Publications</div>
+      <div class="sidebar-item" data-panel="projects" onclick="switchPanel(this)"><span class="sidebar-icon">🔬</span>Projects</div>
+      <div class="sidebar-item" data-panel="datasets" onclick="switchPanel(this)"><span class="sidebar-icon">💾</span>Datasets</div>
+      <div class="sidebar-item" data-panel="experiences" onclick="switchPanel(this)"><span class="sidebar-icon">🏫</span>Experience</div>
+    </aside>
+    <main class="main-content">
+
+      <!-- ABOUT PANEL -->
+      <div class="panel active" id="panel-about">
+        <div class="panel-header">
+          <div><div class="panel-title">About & Stats</div><div class="panel-subtitle">Hero section, bio paragraphs, skills, awards, contact info</div></div>
+          <button class="btn btn-blue" onclick="saveAbout()">💾 Save to GitHub</button>
+        </div>
+        <div class="notice info">Changes here update the hero, about section, and contact details on your site.</div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div class="form-group"><label>Full Name</label><input id="a-name"/></div>
+          <div class="form-group"><label>Badge Text (top of hero)</label><input id="a-badge"/></div>
+          <div class="form-group"><label>Role Line</label><input id="a-role"/></div>
+          <div class="form-group"><label>Email</label><input id="a-email" type="email"/></div>
+          <div class="form-group"><label>Location</label><input id="a-location"/></div>
+          <div class="form-group"><label>ORCID</label><input id="a-orcid"/></div>
+          <div class="form-group"><label>GitHub Username</label><input id="a-github"/></div>
+          <div class="form-group"><label>Google Scholar ID</label><input id="a-scholar"/></div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-bottom:1.2rem">
+          <div class="form-group"><label>Publications Count</label><input id="a-stat-pub" type="number"/></div>
+          <div class="form-group"><label>First-Author Count</label><input id="a-stat-fa" type="number"/></div>
+          <div class="form-group"><label>Under Review Count</label><input id="a-stat-ur" type="number"/></div>
+          <div class="form-group"><label>Awards Label</label><input id="a-stat-aw"/></div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:1rem">
+          <label>Bio Paragraphs (one per line — HTML supported)</label>
+          <textarea id="a-bio" style="min-height:120px"></textarea>
+          <div class="form-hint">Use &lt;strong&gt; for bold, &lt;em&gt; for blue highlight. One paragraph per line.</div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:1rem">
+          <label>Awards & Recognition (one per line)</label>
+          <textarea id="a-awards" style="min-height:80px"></textarea>
+        </div>
+
+        <div class="form-group" style="margin-bottom:1rem">
+          <label>Skills — Deep Learning & AI (comma-separated; first 3 highlighted)</label>
+          <input id="a-skills-dl"/>
+        </div>
+        <div class="form-group" style="margin-bottom:1rem">
+          <label>Skills — Frameworks</label>
+          <input id="a-skills-fw"/>
+        </div>
+        <div class="form-group">
+          <label>Skills — Tools & Languages</label>
+          <input id="a-skills-tl"/>
+        </div>
+        <div class="save-bar">
+          <span class="status" id="about-status">Unsaved changes</span>
+          <button class="btn btn-blue" onclick="saveAbout()">💾 Save to GitHub</button>
+        </div>
+      </div>
+
+      <!-- PUBLICATIONS PANEL -->
+      <div class="panel" id="panel-publications">
+        <div class="panel-header">
+          <div><div class="panel-title">Publications</div><div class="panel-subtitle" id="pub-count-label"></div></div>
+          <button class="btn btn-blue" onclick="openPubModal()">+ Add Publication</button>
+        </div>
+        <div class="notice info">Gold-bordered items are first-author. Click Edit to modify any entry.</div>
+        <div id="pub-list-admin" class="item-list"></div>
+      </div>
+
+      <!-- PROJECTS PANEL -->
+      <div class="panel" id="panel-projects">
+        <div class="panel-header">
+          <div><div class="panel-title">Current Projects</div><div class="panel-subtitle">Ongoing research and upcoming work</div></div>
+          <button class="btn btn-blue" onclick="openProjModal()">+ Add Project</button>
+        </div>
+        <div id="proj-list-admin" class="item-list"></div>
+      </div>
+
+      <!-- DATASETS PANEL -->
+      <div class="panel" id="panel-datasets">
+        <div class="panel-header">
+          <div><div class="panel-title">Datasets</div><div class="panel-subtitle">Published datasets linked to your papers</div></div>
+          <button class="btn btn-blue" onclick="openDsModal()">+ Add Dataset</button>
+        </div>
+        <div class="notice info">Add datasets here when you publish them as part of a journal submission.</div>
+        <div id="ds-list-admin" class="item-list"></div>
+      </div>
+
+      <!-- EXPERIENCES PANEL -->
+      <div class="panel" id="panel-experiences">
+        <div class="panel-header">
+          <div><div class="panel-title">Experience & Education</div><div class="panel-subtitle">Work history, education, awards and recognition</div></div>
+          <button class="btn btn-blue" onclick="openExpModal()">+ Add Entry</button>
+        </div>
+        <div id="exp-list-admin" class="item-list"></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- MODALS -->
+
+<!-- Publication Modal -->
+<div class="modal-overlay" id="pub-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="pub-modal-title">Add Publication</div>
+      <button class="modal-close" onclick="closeModal('pub-modal')">✕</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-group"><label>Title</label><input id="pm-title"/></div>
+      <div class="form-group"><label>Authors (use "B. M. Abuhayi" for your name — it will be bolded)</label><input id="pm-authors"/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem">
+        <div class="form-group"><label>Type</label>
+          <select id="pm-type"><option value="journal">Journal</option><option value="conference">Conference</option></select>
+        </div>
+        <div class="form-group"><label>Status</label>
+          <select id="pm-status"><option value="published">Published</option><option value="review">Under Review</option><option value="progress">In Progress</option></select>
+        </div>
+        <div class="form-group"><label>Year</label><input id="pm-year" type="number" placeholder="2025"/></div>
+      </div>
+      <div class="form-group"><label>Venue / Journal Name</label><input id="pm-venue" placeholder="IEEE Access, 2024 / Under Review"/></div>
+      <div class="form-group"><label>DOI URL</label><input id="pm-doi" placeholder="https://doi.org/…"/></div>
+      <div class="form-group">
+        <label>Tags</label>
+        <div class="tag-checks">
+          <label class="tag-check"><input type="checkbox" id="pm-tag-first" value="first"> First Author</label>
+          <label class="tag-check"><input type="checkbox" id="pm-tag-medical" value="medical"> Medical</label>
+          <label class="tag-check"><input type="checkbox" id="pm-tag-agri" value="agri"> Agricultural</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('pub-modal')">Cancel</button>
+      <button class="btn btn-blue" onclick="savePub()">Save Publication</button>
+    </div>
+  </div>
+</div>
+
+<!-- Project Modal -->
+<div class="modal-overlay" id="proj-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="proj-modal-title">Add Project</div>
+      <button class="modal-close" onclick="closeModal('proj-modal')">✕</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-group"><label>Title</label><input id="prm-title"/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem">
+        <div class="form-group"><label>Period</label><input id="prm-period" placeholder="Year 1 · 2025–2026 / Ongoing"/></div>
+        <div class="form-group"><label>Status</label>
+          <select id="prm-status"><option value="active">Active</option><option value="upcoming">Upcoming</option><option value="progress">In Progress</option></select>
+        </div>
+      </div>
+      <div class="form-group"><label>Description</label><textarea id="prm-desc"></textarea></div>
+      <div class="form-group"><label>Tags (comma-separated)</label><input id="prm-tags" placeholder="Medical Imaging, PyTorch, VLM"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('proj-modal')">Cancel</button>
+      <button class="btn btn-blue" onclick="saveProj()">Save Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- Dataset Modal -->
+<div class="modal-overlay" id="ds-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="ds-modal-title">Add Dataset</div>
+      <button class="modal-close" onclick="closeModal('ds-modal')">✕</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-group"><label>Dataset Title</label><input id="dm-title"/></div>
+      <div class="form-group"><label>Description</label><textarea id="dm-desc"></textarea></div>
+      <div class="form-group"><label>DOI URL</label><input id="dm-doi" placeholder="https://doi.org/…"/></div>
+      <div class="form-group"><label>Access Link (if no DOI)</label><input id="dm-link" placeholder="https://…"/></div>
+      <div class="form-group"><label>Linked Publication ID (optional)</label><input id="dm-pubid" placeholder="j1, j2, …"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('ds-modal')">Cancel</button>
+      <button class="btn btn-blue" onclick="saveDs()">Save Dataset</button>
+    </div>
+  </div>
+</div>
+
+<!-- Experience Modal -->
+<div class="modal-overlay" id="exp-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="exp-modal-title">Add Experience Entry</div>
+      <button class="modal-close" onclick="closeModal('exp-modal')">✕</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-group"><label>Section</label>
+        <select id="em-section">
+          <option value="work">Work / Research</option>
+          <option value="education">Education</option>
+          <option value="award">Award / Service</option>
+        </select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem">
+        <div class="form-group"><label>Period</label><input id="em-period" placeholder="2025 – Present"/></div>
+        <div class="form-group"><label>Title</label><input id="em-title"/></div>
+      </div>
+      <div class="form-group"><label>Organisation</label><input id="em-org"/></div>
+      <div class="form-group"><label>Bullet Points (one per line)</label><textarea id="em-bullets" placeholder="Led project X&#10;Published in IEEE"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('exp-modal')">Cancel</button>
+      <button class="btn btn-blue" onclick="saveExp()">Save Entry</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ───── STATE ───── */
+let cfg={owner:'',repo:'',branch:'main',token:''};
+let data={about:null,publications:[],projects:[],experiences:[],datasets:[]};
+let shas={};
+let editIndex={pub:null,proj:null,ds:null,exp:null};
+
+/* ───── INIT ───── */
+window.addEventListener('DOMContentLoaded',()=>{
+  const saved=localStorage.getItem('bma_cfg');
+  if(saved){cfg=JSON.parse(saved);showApp();}
+  else{document.getElementById('setup-screen').style.display='flex';}
+});
+
+function showApp(){
+  document.getElementById('setup-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('header-repo-label').textContent=`${cfg.owner}/${cfg.repo}`;
+  loadAllData();
+}
+function showSetup(){
+  document.getElementById('setup-owner').value=cfg.owner;
+  document.getElementById('setup-repo').value=cfg.repo;
+  document.getElementById('setup-branch').value=cfg.branch;
+  document.getElementById('setup-token').value=cfg.token;
+  document.getElementById('app').style.display='none';
+  document.getElementById('setup-screen').style.display='flex';
+}
+function saveSetup(){
+  cfg={
+    owner:document.getElementById('setup-owner').value.trim(),
+    repo:document.getElementById('setup-repo').value.trim(),
+    branch:document.getElementById('setup-branch').value.trim()||'main',
+    token:document.getElementById('setup-token').value.trim()
+  };
+  if(!cfg.owner||!cfg.repo||!cfg.token){setSetupNotice('error','Please fill in all fields.');return;}
+  localStorage.setItem('bma_cfg',JSON.stringify(cfg));
+  showApp();
+}
+async function testConnection(){
+  const o=document.getElementById('setup-owner').value.trim();
+  const r=document.getElementById('setup-repo').value.trim();
+  const t=document.getElementById('setup-token').value.trim();
+  if(!o||!r||!t){setSetupNotice('error','Fill in all fields first.');return;}
+  setSetupNotice('info','Testing connection…');
+  try{
+    const res=await fetch(`https://api.github.com/repos/${o}/${r}`,{headers:{Authorization:`Bearer ${t}`}});
+    if(res.ok){setSetupNotice('success','✅ Connected! Repository found.');}
+    else{setSetupNotice('error',`❌ Error ${res.status}: check your token and repo name.`);}
+  }catch(e){setSetupNotice('error','❌ Network error. Check your internet connection.');}
+}
+function setSetupNotice(type,msg){
+  const el=document.getElementById('setup-notice');
+  el.className=`notice ${type}`;el.textContent=msg;
+}
+
+/* ───── GITHUB API ───── */
+async function ghGet(path){
+  const url=`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}?ref=${cfg.branch}`;
+  const res=await fetch(url,{headers:{Authorization:`Bearer ${cfg.token}`,Accept:'application/vnd.github.v3+json'}});
+  if(!res.ok)throw new Error(`GET ${path}: ${res.status}`);
+  return res.json();
+}
+async function ghPut(path,content,sha,message){
+  const url=`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`;
+  const body={message,content:btoa(unescape(encodeURIComponent(JSON.stringify(content,null,2)))),branch:cfg.branch};
+  if(sha)body.sha=sha;
+  const res=await fetch(url,{method:'PUT',headers:{Authorization:`Bearer ${cfg.token}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!res.ok){const e=await res.json();throw new Error(e.message||`PUT ${path}: ${res.status}`);}
+  const j=await res.json();
+  shas[path]=j.content.sha;
+  return j;
+}
+async function loadJson(path){
+  try{
+    const f=await ghGet(path);
+    shas[path]=f.sha;
+    return JSON.parse(decodeURIComponent(escape(atob(f.content.replace(/\n/g,'')))));
+  }catch(e){console.warn(`Could not load ${path}:`,e);return null;}
+}
+
+/* ───── LOAD ALL ───── */
+async function loadAllData(){
+  toast('Loading data from GitHub…');
+  try{
+    const [about,pubs,projs,exps,ds]=await Promise.all([
+      loadJson('data/about.json'),
+      loadJson('data/publications.json'),
+      loadJson('data/projects.json'),
+      loadJson('data/experiences.json'),
+      loadJson('data/datasets.json')
+    ]);
+    data.about=about;
+    data.publications=pubs||[];
+    data.projects=projs||[];
+    data.experiences=exps||[];
+    data.datasets=ds||[];
+    populateAboutForm();
+    renderPubList();
+    renderProjList();
+    renderDsList();
+    renderExpList();
+    toast('Data loaded ✓','ok');
+  }catch(e){toast('Failed to load: '+e.message,'err');}
+}
+
+/* ───── ABOUT PANEL ───── */
+function populateAboutForm(){
+  const d=data.about;if(!d)return;
+  document.getElementById('a-name').value=d.name||'';
+  document.getElementById('a-badge').value=d.badge||'';
+  document.getElementById('a-role').value=d.role||'';
+  document.getElementById('a-email').value=d.contact?.email||'';
+  document.getElementById('a-location').value=d.contact?.location||'';
+  document.getElementById('a-orcid').value=d.contact?.orcid||'';
+  document.getElementById('a-github').value=d.contact?.github||'';
+  document.getElementById('a-scholar').value=d.contact?.scholar||'';
+  document.getElementById('a-stat-pub').value=d.stats?.publications||0;
+  document.getElementById('a-stat-fa').value=d.stats?.firstAuthor||0;
+  document.getElementById('a-stat-ur').value=d.stats?.underReview||0;
+  document.getElementById('a-stat-aw').value=d.stats?.awards||'';
+  document.getElementById('a-bio').value=(d.bio||[]).join('\n');
+  document.getElementById('a-awards').value=(d.awards||[]).join('\n');
+  const sk=d.skills||{};
+  document.getElementById('a-skills-dl').value=(sk['Deep Learning & AI']||[]).join(', ');
+  document.getElementById('a-skills-fw').value=(sk['Frameworks']||[]).join(', ');
+  document.getElementById('a-skills-tl').value=(sk['Tools & Languages']||[]).join(', ');
+}
+
+async function saveAbout(){
+  setStatus('about-status','Saving…','saving');
+  const d=data.about||{};
+  d.name=v('a-name');d.badge=v('a-badge');d.role=v('a-role');
+  d.contact={email:v('a-email'),location:v('a-location'),orcid:v('a-orcid'),github:v('a-github'),scholar:v('a-scholar')};
+  d.stats={publications:+v('a-stat-pub'),firstAuthor:+v('a-stat-fa'),underReview:+v('a-stat-ur'),awards:v('a-stat-aw')};
+  d.bio=v('a-bio').split('\n').filter(Boolean);
+  d.awards=v('a-awards').split('\n').filter(Boolean);
+  d.skills={'Deep Learning & AI':v('a-skills-dl').split(',').map(s=>s.trim()).filter(Boolean),'Frameworks':v('a-skills-fw').split(',').map(s=>s.trim()).filter(Boolean),'Tools & Languages':v('a-skills-tl').split(',').map(s=>s.trim()).filter(Boolean)};
+  if(!d.interests)d.interests=data.about?.interests||[];
+  try{
+    await ghPut('data/about.json',d,shas['data/about.json'],'Update about section');
+    data.about=d;
+    setStatus('about-status','Saved ✓','saved');
+    toast('About section saved — site updates in ~60s','ok');
+  }catch(e){setStatus('about-status','Save failed','err');toast('Error: '+e.message,'err');}
+}
+
+/* ───── PUBLICATIONS ───── */
+function renderPubList(){
+  const list=document.getElementById('pub-list-admin');
+  document.getElementById('pub-count-label').textContent=`${data.publications.length} entries`;
+  if(!data.publications.length){list.innerHTML='<p style="color:var(--text3);font-style:italic">No publications yet.</p>';return;}
+  const sorted=[...data.publications].sort((a,b)=>(b.year||0)-(a.year||0));
+  list.innerHTML=sorted.map((p,i)=>{
+    const idx=data.publications.indexOf(p);
+    const isF=p.tags?.includes('first');
+    const badges=[
+      p.type==='conference'?'<span class="badge">Conf</span>':'',
+      p.status==='review'?'<span class="badge purple">Under Review</span>':'',
+      p.status==='published'?'<span class="badge green">Published</span>':'',
+      isF?'<span class="badge gold">First Author</span>':'',
+      p.tags?.includes('medical')?'<span class="badge blue">Medical</span>':'',
+      p.tags?.includes('agri')?'<span class="badge" style="border-color:#a8d4b4;color:#2a7a40">Agri</span>':''
+    ].join('');
+    return `<div class="list-item${isF?' first-auth':''}">
+      <div class="li-body">
+        <div class="li-title">${p.title}</div>
+        <div class="li-sub">${p.authors} · ${p.year}</div>
+        <div class="li-sub" style="font-style:italic;margin-top:2px">${p.venue}</div>
+        <div class="li-meta">${badges}</div>
+      </div>
+      <div class="li-actions">
+        <button class="btn btn-outline btn-sm" onclick="openPubModal(${idx})">Edit</button>
+        <button class="btn btn-red btn-sm" onclick="deletePub(${idx})">Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openPubModal(idx=null){
+  editIndex.pub=idx;
+  document.getElementById('pub-modal-title').textContent=idx===null?'Add Publication':'Edit Publication';
+  const p=idx!==null?data.publications[idx]:{};
+  document.getElementById('pm-title').value=p.title||'';
+  document.getElementById('pm-authors').value=p.authors||'';
+  document.getElementById('pm-type').value=p.type||'journal';
+  document.getElementById('pm-status').value=p.status||'published';
+  document.getElementById('pm-year').value=p.year||new Date().getFullYear();
+  document.getElementById('pm-venue').value=p.venue||'';
+  document.getElementById('pm-doi').value=p.doi||'';
+  document.getElementById('pm-tag-first').checked=p.tags?.includes('first')||false;
+  document.getElementById('pm-tag-medical').checked=p.tags?.includes('medical')||false;
+  document.getElementById('pm-tag-agri').checked=p.tags?.includes('agri')||false;
+  openModal('pub-modal');
+}
+
+async function savePub(){
+  const tags=[];
+  if(document.getElementById('pm-tag-first').checked)tags.push('first');
+  if(document.getElementById('pm-tag-medical').checked)tags.push('medical');
+  if(document.getElementById('pm-tag-agri').checked)tags.push('agri');
+  const pub={
+    id:editIndex.pub!==null?data.publications[editIndex.pub].id:'p'+Date.now(),
+    type:v('pm-type'),status:v('pm-status'),year:+v('pm-year'),
+    title:v('pm-title'),authors:v('pm-authors'),venue:v('pm-venue'),doi:v('pm-doi'),tags
+  };
+  if(editIndex.pub!==null)data.publications[editIndex.pub]=pub;
+  else data.publications.push(pub);
+  await commitFile('data/publications.json',data.publications,`${editIndex.pub!==null?'Update':'Add'} publication: ${pub.title.slice(0,50)}`);
+  closeModal('pub-modal');
+  renderPubList();
+}
+
+async function deletePub(idx){
+  if(!confirm('Delete this publication?'))return;
+  data.publications.splice(idx,1);
+  await commitFile('data/publications.json',data.publications,'Delete publication');
+  renderPubList();
+}
+
+/* ───── PROJECTS ───── */
+function renderProjList(){
+  const list=document.getElementById('proj-list-admin');
+  if(!data.projects.length){list.innerHTML='<p style="color:var(--text3);font-style:italic">No projects yet.</p>';return;}
+  list.innerHTML=data.projects.map((p,i)=>`
+    <div class="list-item">
+      <div class="li-body">
+        <div class="li-title">${p.title}</div>
+        <div class="li-sub">${p.period}</div>
+        <div class="li-sub" style="margin-top:4px;color:var(--text3)">${p.description?.slice(0,120)}…</div>
+        <div class="li-meta">
+          <span class="badge ${p.status==='active'?'blue':p.status==='upcoming'?'gold':''}">${p.status}</span>
+          ${(p.tags||[]).slice(0,3).map(t=>`<span class="badge">${t}</span>`).join('')}
+        </div>
+      </div>
+      <div class="li-actions">
+        <button class="btn btn-outline btn-sm" onclick="openProjModal(${i})">Edit</button>
+        <button class="btn btn-red btn-sm" onclick="deleteProj(${i})">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+function openProjModal(idx=null){
+  editIndex.proj=idx;
+  document.getElementById('proj-modal-title').textContent=idx===null?'Add Project':'Edit Project';
+  const p=idx!==null?data.projects[idx]:{};
+  document.getElementById('prm-title').value=p.title||'';
+  document.getElementById('prm-period').value=p.period||'';
+  document.getElementById('prm-status').value=p.status||'active';
+  document.getElementById('prm-desc').value=p.description||'';
+  document.getElementById('prm-tags').value=(p.tags||[]).join(', ');
+  openModal('proj-modal');
+}
+async function saveProj(){
+  const proj={
+    id:editIndex.proj!==null?data.projects[editIndex.proj].id:'proj'+Date.now(),
+    title:v('prm-title'),period:v('prm-period'),status:v('prm-status'),
+    description:v('prm-desc'),tags:v('prm-tags').split(',').map(s=>s.trim()).filter(Boolean)
+  };
+  if(editIndex.proj!==null)data.projects[editIndex.proj]=proj;
+  else data.projects.push(proj);
+  await commitFile('data/projects.json',data.projects,`${editIndex.proj!==null?'Update':'Add'} project: ${proj.title}`);
+  closeModal('proj-modal');renderProjList();
+}
+async function deleteProj(idx){
+  if(!confirm('Delete this project?'))return;
+  data.projects.splice(idx,1);
+  await commitFile('data/projects.json',data.projects,'Delete project');
+  renderProjList();
+}
+
+/* ───── DATASETS ───── */
+function renderDsList(){
+  const list=document.getElementById('ds-list-admin');
+  if(!data.datasets.length){list.innerHTML='<p style="color:var(--text3);font-style:italic">No datasets yet. Add one when you publish a dataset paper.</p>';return;}
+  list.innerHTML=data.datasets.map((d,i)=>`
+    <div class="list-item">
+      <div class="li-body">
+        <div class="li-title">${d.title}</div>
+        <div class="li-sub">${d.description?.slice(0,120)}</div>
+        <div class="li-meta">
+          ${d.doi?`<span class="badge blue">DOI</span>`:''}
+          ${d.linkedPublication?`<span class="badge">Linked: ${d.linkedPublication}</span>`:''}
+        </div>
+      </div>
+      <div class="li-actions">
+        <button class="btn btn-outline btn-sm" onclick="openDsModal(${i})">Edit</button>
+        <button class="btn btn-red btn-sm" onclick="deleteDs(${i})">Delete</button>
+      </div>
+    </div>`).join('');
+}
+function openDsModal(idx=null){
+  editIndex.ds=idx;
+  document.getElementById('ds-modal-title').textContent=idx===null?'Add Dataset':'Edit Dataset';
+  const d=idx!==null?data.datasets[idx]:{};
+  document.getElementById('dm-title').value=d.title||'';
+  document.getElementById('dm-desc').value=d.description||'';
+  document.getElementById('dm-doi').value=d.doi||'';
+  document.getElementById('dm-link').value=d.link||'';
+  document.getElementById('dm-pubid').value=d.linkedPublication||'';
+  openModal('ds-modal');
+}
+async function saveDs(){
+  const ds={id:editIndex.ds!==null?data.datasets[editIndex.ds].id:'ds'+Date.now(),title:v('dm-title'),description:v('dm-desc'),doi:v('dm-doi'),link:v('dm-link'),linkedPublication:v('dm-pubid')};
+  if(editIndex.ds!==null)data.datasets[editIndex.ds]=ds;
+  else data.datasets.push(ds);
+  await commitFile('data/datasets.json',data.datasets,`${editIndex.ds!==null?'Update':'Add'} dataset: ${ds.title}`);
+  closeModal('ds-modal');renderDsList();
+}
+async function deleteDs(idx){
+  if(!confirm('Delete this dataset?'))return;
+  data.datasets.splice(idx,1);
+  await commitFile('data/datasets.json',data.datasets,'Delete dataset');
+  renderDsList();
+}
+
+/* ───── EXPERIENCES ───── */
+function renderExpList(){
+  const list=document.getElementById('exp-list-admin');
+  if(!data.experiences.length){list.innerHTML='<p style="color:var(--text3);font-style:italic">No entries yet.</p>';return;}
+  const secLabel={work:'Work',education:'Education',award:'Award'};
+  list.innerHTML=data.experiences.map((e,i)=>`
+    <div class="list-item">
+      <div class="li-body">
+        <div class="li-title">${e.title}</div>
+        <div class="li-sub">${e.org} · ${e.period}</div>
+        <div class="li-meta"><span class="badge ${e.section==='work'?'blue':e.section==='award'?'gold':''}">${secLabel[e.section]||e.section}</span></div>
+      </div>
+      <div class="li-actions">
+        <button class="btn btn-outline btn-sm" onclick="openExpModal(${i})">Edit</button>
+        <button class="btn btn-red btn-sm" onclick="deleteExp(${i})">Delete</button>
+      </div>
+    </div>`).join('');
+}
+function openExpModal(idx=null){
+  editIndex.exp=idx;
+  document.getElementById('exp-modal-title').textContent=idx===null?'Add Entry':'Edit Entry';
+  const e=idx!==null?data.experiences[idx]:{};
+  document.getElementById('em-section').value=e.section||'work';
+  document.getElementById('em-period').value=e.period||'';
+  document.getElementById('em-title').value=e.title||'';
+  document.getElementById('em-org').value=e.org||'';
+  document.getElementById('em-bullets').value=(e.bullets||[]).join('\n');
+  openModal('exp-modal');
+}
+async function saveExp(){
+  const exp={id:editIndex.exp!==null?data.experiences[editIndex.exp].id:'exp'+Date.now(),section:v('em-section'),period:v('em-period'),title:v('em-title'),org:v('em-org'),bullets:v('em-bullets').split('\n').filter(Boolean)};
+  if(editIndex.exp!==null)data.experiences[editIndex.exp]=exp;
+  else data.experiences.push(exp);
+  await commitFile('data/experiences.json',data.experiences,`${editIndex.exp!==null?'Update':'Add'} experience: ${exp.title}`);
+  closeModal('exp-modal');renderExpList();
+}
+async function deleteExp(idx){
+  if(!confirm('Delete this entry?'))return;
+  data.experiences.splice(idx,1);
+  await commitFile('data/experiences.json',data.experiences,'Delete experience entry');
+  renderExpList();
+}
+
+/* ───── GITHUB COMMIT ───── */
+async function commitFile(path,content,message){
+  try{
+    await ghPut(path,content,shas[path],message);
+    toast('Saved ✓ — live in ~60s','ok');
+  }catch(e){
+    // SHA mismatch: re-fetch and retry once
+    if(e.message.includes('SHA')||e.message.includes('sha')){
+      const fresh=await ghGet(path);
+      shas[path]=fresh.sha;
+      await ghPut(path,content,shas[path],message);
+      toast('Saved ✓','ok');
+    } else { toast('Save error: '+e.message,'err'); throw e; }
+  }
+}
+
+/* ───── UTILS ───── */
+function v(id){return document.getElementById(id).value.trim();}
+function switchPanel(el){
+  document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+el.dataset.panel).classList.add('active');
+}
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function setStatus(id,msg,cls){const el=document.getElementById(id);el.className='status '+(cls||'');el.textContent=msg;}
+function toast(msg,type=''){
+  const t=document.createElement('div');
+  t.className='toast-item '+(type||'');t.textContent=msg;
+  document.getElementById('toast').appendChild(t);
+  setTimeout(()=>t.remove(),3500);
+}
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+</script>
+</body>
+</html>
