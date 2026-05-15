@@ -1,0 +1,272 @@
+[
+  {
+    "id": "j1",
+    "type": "journal",
+    "status": "published",
+    "tags": [
+      "first",
+      "agri"
+    ],
+    "year": 2025,
+    "title": "A Hybrid Compact Convolutional Transformer with Bilateral Filtering for Coffee Berry Disease Classification",
+    "authors": "B. M. Abuhayi and A. Hajdu",
+    "venue": "Sensors, vol. 25, no. 13, p. 3926, 2025",
+    "doi": "https://doi.org/10.3390/s25133926"
+  },
+  {
+    "id": "j2",
+    "type": "journal",
+    "status": "published",
+    "tags": [
+      "first",
+      "medical"
+    ],
+    "year": 2024,
+    "title": "Inv-AlxVGGNets: Cervical Spine Disease Classification Using Concatenated Involutional Neural Networks with Residual Net",
+    "authors": "B. M. Abuhayi, Y. A. Bezabh, and A. M. Ayalew",
+    "venue": "IEEE Access, 2024",
+    "doi": "https://doi.org/10.1109/ACCESS.2024.3432803"
+  },
+  {
+    "id": "j3",
+    "type": "journal",
+    "status": "published",
+    "tags": [
+      "first",
+      "medical"
+    ],
+    "year": 2024,
+    "title": "Lumbar Disease Classification Using an Involutional Neural Based VGG Nets (INVGG)",
+    "authors": "B. M. Abuhayi, Y. A. Bezabh, and A. M. Ayalew",
+    "venue": "IEEE Access, 2024",
+    "doi": "https://doi.org/10.1109/ACCESS.2024.3367774"
+  },
+  {
+    "id": "j4",
+    "type": "journal",
+    "status": "published",
+    "tags": [
+      "first",
+      "agri"
+    ],
+    "year": 2023,
+    "title": "Coffee Disease Classification Using Convolutional Neural Network Based on Feature Concatenation",
+    "authors": "B. M. Abuhayi and A. A. Mossa",
+    "venue": "Informatics in Medicine Unlocked, vol. 39, p. 101245, 2023",
+    "doi": "https://doi.org/10.1016/j.imu.2023.101245"
+  },
+  {
+    "id": "j5",
+    "type": "journal",
+    "status": "published",
+    "tags": [
+      "first",
+      "agri"
+    ],
+    "year": 2023,
+    "title": "Chickpea Disease Classification Using Hybrid Method",
+    "authors": "B. M. Abuhayi and Y. A. Bezabh",
+    "venue": "Smart Agricultural Technology, vol. 6, p. 100371, 2023",
+    "doi": "https://doi.org/10.1016/j.atech.2023.100371"
+  },
+  {
+    "id": "j6",
+    "type": "journal",
+    "status": "published",
+    "tags": [
+      "first",
+      "medical"
+    ],
+    "year": 2024,
+    "title": "Classification of Gastrointestinal Diseases Using Hybrid Recurrent Vision Transformers with Wavelet Transform",
+    "authors": "B. M. Abuhayi, Y. A. Bezabh, A. M. Ayalew, and M. A. Lakew",
+    "venue": "Advances in Multimedia, vol. 2024, p. 8334358, 2024",
+    "doi": "https://doi.org/10.1155/2024/8334358"
+  },
+  {
+    "id": "j7",
+    "type": "journal",
+    "status": "published",
+    "tags": [
+      "agri"
+    ],
+    "year": 2023,
+    "title": "CPD-CCNN: Classification of Pepper Disease Using a Concatenation of Convolutional Neural Network Models",
+    "authors": "Y. A. Bezabh, A. O. Salau, B. M. Abuhayi, A. A. Mussa, and A. M. Ayalew",
+    "venue": "Scientific Reports, vol. 13, p. 15581, 2023",
+    "doi": "https://doi.org/10.1038/s41598-023-42843-2"
+  },
+  {
+    "id": "j8",
+    "type": "journal",
+    "status": "published",
+    "tags": [
+      "medical"
+    ],
+    "year": 2024,
+    "title": "Smart Malaria Classification: Novel Machine Learning Algorithms for Early Malaria Monitoring Using IoT-Based Healthcare Environment",
+    "authors": "A. M. Ayalew, W. S. Admass, B. M. Abuhayi, et al.",
+    "venue": "Sensing and Imaging, vol. 25, p. 55, 2024",
+    "doi": "https://doi.org/10.1007/s11220-024-00503-3"
+  },
+  {
+    "id": "j9",
+    "type": "journal",
+    "status": "published",
+    "tags": [
+      "medical"
+    ],
+    "year": 2024,
+    "title": "Atelectasis Detection in Chest X-ray Images Using CNNs and Transfer Learning with Anisotropic Diffusion Filter",
+    "authors": "A. M. Ayalew, Y. A. Bezabh, B. M. Abuhayi, and A. Y. Ayalew",
+    "venue": "Informatics in Medicine Unlocked, vol. 45, p. 101448, 2024",
+    "doi": "https://doi.org/10.1016/j.imu.2024.101448"
+  },
+  {
+    "id": "j10",
+    "type": "journal",
+    "status": "published",
+    "tags": [
+      "medical"
+    ],
+    "year": 2025,
+    "title": "Improved Sarcoidosis Disease Detection Using Deep Learning and Histogram of Oriented Gradients with Quantum SVM",
+    "authors": "A. M. Ayalew et al. (incl. B. M. Abuhayi)",
+    "venue": "Discover Applied Sciences, vol. 7, p. 154, 2025",
+    "doi": "https://doi.org/10.1007/s42452-025-06504-5"
+  },
+  {
+    "id": "j11",
+    "type": "journal",
+    "status": "published",
+    "tags": [
+      "medical"
+    ],
+    "year": 2024,
+    "title": "Early-Stage Cardiomegaly Detection and Classification from X-ray Images Using CNNs and Transfer Learning",
+    "authors": "A. M. Ayalew, B. Enyew, Y. A. Bezabh, B. M. Abuhayi, and G. S. Negashe",
+    "venue": "Intelligent Systems with Applications, vol. 24, p. 200453, 2024",
+    "doi": "https://doi.org/10.1016/j.iswa.2024.200453"
+  },
+  {
+    "id": "j12",
+    "type": "journal",
+    "status": "published",
+    "tags": [
+      "medical"
+    ],
+    "year": 2025,
+    "title": "Smart Breast Cancer Detection: Transitioning from CNN to Involutional Neural Network Using Smart Wearable Devices",
+    "authors": "A. M. Ayalew, M. Oussalah, B. M. Abuhayi, and Y. A. Bezabh",
+    "venue": "Sensing and Imaging, vol. 26, p. 26, 2025",
+    "doi": "https://doi.org/10.1007/s11220-025-00561-1"
+  },
+  {
+    "id": "j13",
+    "type": "journal",
+    "status": "published",
+    "tags": [
+      "agri"
+    ],
+    "year": 2024,
+    "title": "Classification of Pumpkin Disease by Using a Hybrid Approach",
+    "authors": "Y. A. Bezabh, B. M. Abuhayi, A. M. Ayalew, and H. A. Asegie",
+    "venue": "Smart Agricultural Technology, vol. 7, p. 100398, 2024",
+    "doi": "https://doi.org/10.1016/j.atech.2024.100398"
+  },
+  {
+    "id": "j14",
+    "type": "journal",
+    "status": "published",
+    "tags": [
+      "agri"
+    ],
+    "year": 2024,
+    "title": "Classification of Mango Disease Using Ensemble Convolutional Neural Network",
+    "authors": "Y. A. Bezabh, A. M. Ayalew, B. M. Abuhayi, et al.",
+    "venue": "Smart Agricultural Technology, vol. 8, p. 100476, 2024",
+    "doi": "https://doi.org/10.1016/j.atech.2024.100476"
+  },
+  {
+    "id": "j15",
+    "type": "journal",
+    "status": "published",
+    "tags": [
+      "medical"
+    ],
+    "year": 2024,
+    "title": "Classification of Cervical Spine Disease Using Convolutional Neural Network",
+    "authors": "Y. A. Bezabh, A. O. Salau, B. M. Abuhayi, and A. M. Ayalew",
+    "venue": "Multimedia Tools and Applications, 2024",
+    "doi": "https://doi.org/10.1007/s11042-024-18970-x"
+  },
+  {
+    "id": "c1",
+    "type": "conference",
+    "status": "published",
+    "tags": [
+      "medical"
+    ],
+    "year": 2024,
+    "title": "InvNets: A Novel Approach for Parkinson Disease Detection Using Involution Neural Networks",
+    "authors": "A. M. Ayalew et al. (incl. B. M. Abuhayi)",
+    "venue": "2024 Int'l Conf. IC3TES, IEEE, 2024",
+    "doi": "https://doi.org/10.1109/IC3TES62412.2024.10877493"
+  },
+  {
+    "id": "r1",
+    "type": "journal",
+    "status": "review",
+    "tags": [
+      "first",
+      "medical"
+    ],
+    "year": 2025,
+    "title": "Context Aware Spectral Gating for Domain Robust Histopathology Image Classification with Vision Transformers",
+    "authors": "B. M. Abuhayi et al.",
+    "venue": "Under Review",
+    "doi": ""
+  },
+  {
+    "id": "r2",
+    "type": "journal",
+    "status": "review",
+    "tags": [
+      "first",
+      "agri"
+    ],
+    "year": 2025,
+    "title": "KG-AgroQA: A Knowledge Graph-Augmented RAG System for Plant Pathology Question Answering",
+    "authors": "B. M. Abuhayi et al.",
+    "venue": "Under Review",
+    "doi": ""
+  },
+  {
+    "id": "r3",
+    "type": "journal",
+    "status": "review",
+    "tags": [
+      "first",
+      "medical"
+    ],
+    "year": 2025,
+    "title": "FreqTextSeg3D: Frequency-Aware Text-Guided 3D Brain Tumor Segmentation with Hierarchical Semantic Decomposition and Contrastive Alignment",
+    "authors": "B. M. Abuhayi et al.",
+    "venue": "Under Review",
+    "doi": ""
+  },
+  {
+    "id": "r4",
+    "type": "journal",
+    "status": "review",
+    "tags": [
+      "first",
+      "medical"
+    ],
+    "year": 2025,
+    "title": "MSFF-Net: A Dual-Stream Multi-Scale Feature Fusion Network with Cross-Attention and Morphology-Aware Attention for Cervical Cell Classification",
+    "authors": "B. M. Abuhayi et al.",
+    "venue": "Under Review",
+    "doi": ""
+  }
+]

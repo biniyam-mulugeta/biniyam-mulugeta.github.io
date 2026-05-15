@@ -1,0 +1,93 @@
+[
+  {
+    "id": "e1",
+    "section": "work",
+    "period": "Jul 2025 – Present",
+    "title": "Researcher — Medical Imaging AI",
+    "org": "University of Debrecen, Hungary",
+    "bullets": [
+      "AI and computer vision research for medical imaging under Prof. András Hajdu",
+      "Developing VLM systems, 3D segmentation, and histopathology architectures"
+    ]
+  },
+  {
+    "id": "e2",
+    "section": "work",
+    "period": "Sep 2022 – Sep 2025",
+    "title": "Lecturer & Researcher",
+    "org": "University of Gondar, Ethiopia",
+    "bullets": [
+      "Delivered computer science courses; mentored undergraduate researchers",
+      "Led projects producing 6 first-author and 10+ co-authored publications",
+      "Won Best Researcher (2024) and Young Researcher (2023) awards"
+    ]
+  },
+  {
+    "id": "e3",
+    "section": "work",
+    "period": "Dec 2022 – Present",
+    "title": "Lead Researcher — Medical Image Analysis",
+    "org": "University of Gondar / University of Debrecen",
+    "bullets": [
+      "Hybrid deep learning for spinal disease classification (IEEE Access 2024)",
+      "Hybrid RVT + Wavelet Transform for GI disease (Advances in Multimedia 2024)",
+      "Co-authored models for atelectasis, breast cancer, cardiomegaly, Parkinson's"
+    ]
+  },
+  {
+    "id": "e4",
+    "section": "work",
+    "period": "Jul 2018 – Oct 2019",
+    "title": "ICT System Developer",
+    "org": "East Africa Technology Transfer",
+    "bullets": []
+  },
+  {
+    "id": "ed1",
+    "section": "education",
+    "period": "2021 – 2022",
+    "title": "MSc Information Technology",
+    "org": "University of Gondar, Ethiopia",
+    "bullets": []
+  },
+  {
+    "id": "ed2",
+    "section": "education",
+    "period": "2012 – 2016",
+    "title": "BSc Electrical & Computer Engineering",
+    "org": "University of Gondar, Ethiopia",
+    "bullets": []
+  },
+  {
+    "id": "aw1",
+    "section": "award",
+    "period": "2024",
+    "title": "Best Researcher Award",
+    "org": "University of Gondar",
+    "bullets": []
+  },
+  {
+    "id": "aw2",
+    "section": "award",
+    "period": "2023",
+    "title": "Young Researcher Award",
+    "org": "University of Gondar",
+    "bullets": []
+  },
+  {
+    "id": "aw3",
+    "section": "award",
+    "period": "2025",
+    "title": "AD Scientific Index — #1531 in Ethiopia",
+    "org": "Ranked 168th at University of Gondar",
+    "bullets": []
+  },
+  {
+    "id": "aw4",
+    "section": "award",
+    "period": "2023 – Present",
+    "title": "Peer Reviewer",
+    "org": "Springer Nature · IEEE · Elsevier",
+    "bullets": []
+  }
+]

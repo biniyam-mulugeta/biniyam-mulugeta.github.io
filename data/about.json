@@ -1,0 +1,87 @@
+{
+  "name": "Biniyam Mulugeta Abuhayi",
+  "badge": "Researcher · University of Debrecen, Hungary",
+  "role": "Medical AI · Computer Vision · Deep Learning",
+  "bio": [
+    "I am a <strong>researcher at the University of Debrecen, Hungary</strong>, working under the supervision of <em>Prof. András Hajdu</em> in the Faculty of Informatics. My work focuses on deep learning architectures for medical imaging — designing novel hybrid models for disease classification, anatomical segmentation, and diagnostic decision support.",
+    "Previously I served as a <strong>Lecturer and Researcher at the University of Gondar, Ethiopia</strong> (2022–2025), where I led research projects on AI for medical diagnostics and agricultural disease detection, producing a substantial body of peer-reviewed work across IEEE, Elsevier, Wiley, and Springer journals.",
+    "My current research directions include <strong>Multi-Modal Vision-Language Models</strong> for cross-modality medical imaging, <strong>frequency-aware 3D brain tumour segmentation</strong>, <strong>knowledge-graph-augmented RAG systems</strong> for clinical QA, and systematic reviews of foundation models in healthcare AI."
+  ],
+  "stats": {
+    "publications": 17,
+    "firstAuthor": 6,
+    "underReview": 4,
+    "awards": "2×"
+  },
+  "contact": {
+    "email": "biniyam.mulugeta123@gmail.com",
+    "location": "Debrecen, Hungary",
+    "orcid": "0000-0003-3717-5499",
+    "github": "Biniyam23",
+    "scholar": "GmyVPY8AAAAJ"
+  },
+  "awards": [
+    "Best Researcher Award — University of Gondar (2024)",
+    "Young Researcher Award — University of Gondar (2023)",
+    "AD Scientific Index — Ranked 1,531st in Ethiopia & 168th at University of Gondar (2025)",
+    "Peer Reviewer — Springer Nature, IEEE, and Elsevier (2023–Present)"
+  ],
+  "skills": {
+    "Deep Learning & AI": [
+      "Vision Transformers",
+      "Diffusion Models",
+      "Multi-Modal Architectures",
+      "CNNs",
+      "RNNs",
+      "GANs"
+    ],
+    "Frameworks": [
+      "PyTorch",
+      "TensorFlow",
+      "Hugging Face",
+      "MONAI",
+      "OpenCV",
+      "Scikit-learn"
+    ],
+    "Tools & Languages": [
+      "Python",
+      "MATLAB",
+      "LaTeX",
+      "Docker",
+      "Git",
+      "Google Colab"
+    ]
+  },
+  "interests": [
+    {
+      "icon": "🧠",
+      "title": "Medical Image Analysis",
+      "description": "Novel deep learning architectures for classifying and detecting diseases from radiology, endoscopy, histopathology, and X-ray images — spinal, gastrointestinal, pulmonary, and oncological conditions."
+    },
+    {
+      "icon": "👁️",
+      "title": "Computer Vision",
+      "description": "Hybrid CNN-Transformer models, involutional neural networks, wavelet-based feature extraction, and attention mechanisms for high-accuracy visual recognition in medical and agricultural settings."
+    },
+    {
+      "icon": "🗣️",
+      "title": "Vision-Language Models",
+      "description": "Multi-modal VLM architectures bridging imaging and clinical text for automated diagnostic reporting, cross-modality reasoning, and EHR-integrated clinical decision support."
+    },
+    {
+      "icon": "🧬",
+      "title": "Computational Pathology",
+      "description": "Context-aware spectral gating and frequency-aware methods for domain-robust histopathology image classification using Vision Transformers for whole-slide image analysis."
+    },
+    {
+      "icon": "🌐",
+      "title": "3D Volumetric Segmentation",
+      "description": "Frequency-aware text-guided 3D segmentation with hierarchical semantic decomposition and contrastive alignment for brain tumour delineation in volumetric MRI data."
+    },
+    {
+      "icon": "🤖",
+      "title": "Generative AI & RAG Systems",
+      "description": "Knowledge-graph-augmented RAG architectures for clinical and agricultural QA; generative AI for medical data synthesis and systematic literature review automation."
+    }
+  ]
+}
